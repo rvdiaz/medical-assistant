@@ -1,6 +1,7 @@
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../firebase/firebaseConfig";
 import axios from "axios";
+import { getOpenIAAnswer } from "./openIAService";
 
 export const getSuggestedAnswer = async (question) => {
   try {
@@ -9,20 +10,19 @@ export const getSuggestedAnswer = async (question) => {
       "gs://audio-medical-assistant-85c9e.appspot.com/medical-info.txt"
     );
     const url = await getDownloadURL(docRef);
+
     try {
       /** Fetch the file content using Fetch API */
       const response = await axios.get(url);
 
       const documentText = response.data;
 
-      const lines = documentText.split("\n");
+      const openIAAnswer = await getOpenIAAnswer(
+        question.toLowerCase(),
+        documentText
+      );
 
-      const answer =
-        lines.find((line) =>
-          line.toLowerCase().includes(question.toLowerCase())
-        ) || "No answer found.";
-
-      return answer;
+      return openIAAnswer;
     } catch (error) {
       console.error("Error reading document:", error);
       return "Error reading the medical document.";
