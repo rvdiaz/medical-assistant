@@ -11,7 +11,7 @@ export const getOpenIAAnswer = async (question, data) => {
         messages: [
           {
             role: "system",
-            content: `You are a medical assistant helping user analyze their dreams. User will give you a question. Analize the question and find the response in the followings answer and questions prompts, if is not there you will response I don't know: ${data}`,
+            content: `You are a medical assistant. The user will give you a question. Analize the question and find the response in the followings answer and questions prompts, if is not there you will response I don't know: ${data}`,
           },
           {
             role: "user",
