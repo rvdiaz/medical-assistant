@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const getOpenIAAnswer = async (question, data) => {
   try {
-    const baseUrl = "https://api.openai.com/v1/chat/completions";
+    const baseUrl = process.env.REACT_APP_OPENIA_ENDPOINT;
 
     const response = await axios.post(
       baseUrl,
